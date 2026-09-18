@@ -2,7 +2,6 @@
 
 An automated pipeline that ingests raw Netflix catalog data from GitHub, processes it through a Bronze → Silver → Gold architecture on Azure Databricks, and delivers analytics-ready star schema tables with built-in data quality checks. Built to mirror how a real production data platform is structured, not just a single notebook running transformations.
 
-![Architecture Diagram](docs/architecture-diagram.png)
 
 ## What This Solves
 
