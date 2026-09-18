@@ -1,11 +1,11 @@
 # Netflix Data Pipeline — Azure End-to-End Data Engineering Project
 
-An automated pipeline that ingests raw Netflix catalog data from GitHub, processes it through a Bronze → Silver → Gold architecture on Azure Databricks, and delivers analytics-ready star schema tables with built-in data quality checks. Built to mirror how a real production data platform is structured, not just a single notebook running transformations.
+An automated pipeline that ingests raw Netflix catalog data from GitHub, processes it through a Bronze - Silver - Gold architecture on Azure Databricks, and delivers analytics-ready star schema tables with built-in data quality checks. Built to mirror how a real production data platform is structured, not just a single notebook running transformations.
 
 
 ## What This Solves
 
-Raw data sitting in scattered CSV files isn't usable for reporting or analysis. This pipeline automates the journey from source files to trustworthy, query-ready tables — with incremental loading so it only processes new data, and data quality rules that catch bad records before they reach the reporting layer.
+Raw data sitting in scattered CSV files isn't usable for reporting or analysis. This pipeline automates the journey from source files to trustworthy, query-ready tables, with incremental loading so it only processes new data, and data quality rules that catch bad records before they reach the reporting layer.
 
 ## Architecture
 
@@ -15,13 +15,13 @@ Raw data sitting in scattered CSV files isn't usable for reporting or analysis. 
 | **Bronze** | Databricks Auto Loader | Incrementally loads new raw files into Bronze as Delta tables |
 | **Silver** | Databricks (PySpark) | Cleans, casts, and transforms data; builds dimension tables |
 | **Gold** | Delta Live Tables | Applies data quality rules and produces curated fact/dimension tables |
-| **Orchestration** | Databricks Workflows | Runs all Bronze → Gold notebooks as a scheduled job with task dependencies |
+| **Orchestration** | Databricks Workflows | Runs all Bronze - Gold notebooks as a scheduled job with task dependencies |
 | **Serving** | Azure Synapse, Power BI | *(confirm current status before publishing — update this row)* |
 
 ## Pipeline Walkthrough
 
 ### 1. Ingestion — GitHub to Raw (Azure Data Factory)
-The `pipeline_netflix` pipeline calls the GitHub API to fetch file metadata, then runs a Validation activity that checks `netflix_titles.csv` actually exists in the Raw container before proceeding — a guardrail against running the copy loop against a missing or not-yet-landed source file. Once validated, it loops through a parameterized array of source folders (`netflix_titles`, `netflix_directors`, `netflix_cast`, `netflix_countries`, `netflix_category`) and copies each one into the Raw container in ADLS Gen2. Adding a new source folder is a config change, not a pipeline rebuild.
+The `pipeline_netflix` pipeline calls the GitHub API to fetch file metadata, then runs a Validation activity that checks `netflix_titles.csv` actually exists in the Raw container before proceeding, a guardrail against running the copy loop against a missing or not-yet-landed source file. Once validated, it loops through a parameterized array of source folders (`netflix_titles`, `netflix_directors`, `netflix_cast`, `netflix_countries`, `netflix_category`) and copies each one into the Raw container in ADLS Gen2. Adding a new source folder is a config change, not a pipeline rebuild.
 
 ### 2. Bronze — Incremental Loading (Auto Loader)
 `1_Autoloader.ipynb` uses Databricks Auto Loader (`cloudFiles`) to pick up new files from Raw and stream them into Bronze as Delta tables, with schema location tracking so schema changes are handled automatically rather than breaking the pipeline.
