@@ -16,7 +16,7 @@ Raw data sitting in scattered CSV files isn't usable for reporting or analysis. 
 | **Silver** | Databricks (PySpark) | Cleans, casts, and transforms data; builds dimension tables |
 | **Gold** | Delta Live Tables | Applies data quality rules and produces curated fact/dimension tables |
 | **Orchestration** | Databricks Workflows | Runs all Bronze - Gold notebooks as a scheduled job with task dependencies |
-| **Serving** | Azure Synapse, Power BI | *(confirm current status before publishing — update this row)* |
+| **Serving** | Azure Synapse, Power BI | *Not Yet built* |
 
 ## Pipeline Walkthrough
 
