@@ -33,7 +33,7 @@ Two notebooks handle this layer:
 
 A weekday parameter (`5_LookupNotebook.ipynb`) drives conditional logic in the Databricks Workflow, controlling which activities run on which days.
 
-### 4. Gold — Star Schema with Data Quality (Delta Live Tables)
+### 4. Gold — Dimension and Fact-shaped Tables.(Delta Live Tables)
 `7_DLT_Notebook.ipynb` builds the Gold layer using Delta Live Tables, streaming each Silver table forward and enforcing quality rules with `expect_all_or_drop` (for example, rejecting any record with a null `show_id`). The final `gold_netflixtitles` table goes through a staged transform before landing, with an additional quality check on the derived flag column. This produces five curated tables (`gold_netflixtitles`, `gold_netflixdirectors`, `gold_netflixcast`, `gold_netflixcountries`, `gold_netflixcategory`) — a fact/dimension-shaped Gold layer, though the tables aren't yet linked with formal keys, that step would happen at the modeling stage (e.g. in Synapse) to turn this into a true star schema.
 
 ### 5. Orchestration
